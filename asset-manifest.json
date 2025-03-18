@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/lexer-generator/static/js/main.7d3625a8.js",
+    "index.html": "/lexer-generator/index.html",
+    "main.7d3625a8.js.map": "/lexer-generator/static/js/main.7d3625a8.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.7d3625a8.js"
+  ]
+}
