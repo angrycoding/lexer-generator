@@ -53,12 +53,62 @@ const createTransitionTable = (...tokens: Array<[string, string, ...string[]]>):
 	}
 
 
-	console.info(JSON.stringify(nfa, null, '\t'));
-	return [];
-	
 	for (const state in nfa) {
 		nfa[state].push(0);
 	}
+
+
+
+
+	{
+
+		const x: any = {};
+
+		for (const stateId in nfa) {
+			const stateStr = JSON.stringify(nfa[stateId]);
+	
+			if (!x[stateStr]) {
+				x[stateStr] = [stateId];
+			} else {
+				x[stateStr].push(stateId);
+			}
+		}
+	
+	
+	
+		const mappings: any = {};
+
+		for (const stateStr in x) {
+			const redirectToState = x[stateStr][0];
+			for (const removeState of x[stateStr].slice(1)) {
+				delete nfa[removeState];
+				mappings[removeState] = redirectToState;
+			}
+		}
+
+		for (const key in nfa) {
+			for (let item of nfa[key]) {
+				if (item instanceof Array) {
+					const lastItem = item[item.length - 1];
+					if (mappings[lastItem]) {
+						item[item.length - 1] = mappings[lastItem];
+					}
+				} else if (mappings[item]) {
+					nfa[key] = mappings[item];
+				}
+
+			}
+		}
+	}
+
+
+
+
+	
+	console.info(JSON.stringify(nfa, null, '\t'))
+
+
+
 	
 	let counter = 0;
 	let mappings: any = {};
